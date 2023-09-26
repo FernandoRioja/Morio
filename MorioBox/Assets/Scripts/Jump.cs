@@ -26,6 +26,7 @@ public class Jump : MonoBehaviour
 
     //Texto flotante de dano
     public GameObject FloatingText;
+    public GameObject TextDamageUp;
 
     //Controlador de particulas
     public ParticleSystem Dust;
@@ -84,6 +85,7 @@ public class Jump : MonoBehaviour
                 Anim.SetTrigger("FinalJump");
                 FindObjectOfType<AudioManagerScript>().Play("FinalBoxSound");
                 Damage = Damage + Random.Range(1, 3);
+                ShowDamageUp();
                 BoxExplosion();
                 NextBox();
 
@@ -180,4 +182,10 @@ public class Jump : MonoBehaviour
         go.GetComponent<TextMesh>().text = Damage.ToString();
     }
 
+    void ShowDamageUp()
+    {
+
+        var go = Instantiate(TextDamageUp, transform.position, Quaternion.identity, transform);
+        go.GetComponent<TextMesh>().text = "+ Damage";
+    }
 }

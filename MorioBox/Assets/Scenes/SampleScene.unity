@@ -668,6 +668,7 @@ MonoBehaviour:
   Boxes: []
   BoxHP: 0
   FloatingText: {fileID: 4478827976986328993, guid: 3cf803eda7b56654a954754193689621, type: 3}
+  TextDamageUp: {fileID: 6426165362373623968, guid: 20d3a4e7b6d053444a0fe1956d6ff490, type: 3}
   Dust: {fileID: 920502530}
   Explosion: {fileID: 1858118530}
   Hit: {fileID: 2012707208}
