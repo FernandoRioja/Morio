@@ -68,7 +68,7 @@ public class LevelTransition : MonoBehaviour
                     Envoirment3.transform.position = new Vector3(-1, 40, -7);
                     FindAnyObjectByType<Jump>().CanJump = true;
                 });
-                ActiveLevel = 0;
+                ActiveLevel = 1;
                 break;
 
 
