@@ -87,6 +87,7 @@
     <None Include="Assets\StoreDownloads\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
     <None Include="Assets\StoreDownloads\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
     <None Include="Assets\StoreDownloads\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
+    <None Include="Assets\StoreDownloads\Customizable Skybox\Stylized Sky\Shaders\Stylized Sky.shader" />
     <None Include="Assets\StoreDownloads\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
     <None Include="Assets\StoreDownloads\Supercyan Character Pack Zombie Sample\Shaders\SupercyanShaderLighting.cginc" />
     <None Include="Assets\StoreDownloads\Supercyan Character Pack Free Sample\Shaders\SupercyanShaderLighting.cginc" />

@@ -14,3 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   BoxType: {fileID: 1554748404174751714, guid: a7faaaefe63091048bb5d569159e3b0a, type: 3}
   HP: 5
+  LevelBox: 1

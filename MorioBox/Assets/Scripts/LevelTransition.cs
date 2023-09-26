@@ -2,49 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using UnityEngine.UI;
 
 
 public class LevelTransition : MonoBehaviour
 {
-    public GameObject Envoirment1;
-    public GameObject Envoirment2;
-    public GameObject Envoirment3;
+    public int ActiveLevel;
+
+    public Transform Envoirment1;
+    public Transform Envoirment2;
+    public Transform Envoirment3;
+    public Image EndOfLevelLight;
     public GameObject JumpScript;
     public GameObject MainCanvas;
     public GameObject StoreCanvas;
-    public void Level2()
-    {
-        //JumpScript.SetActive(false);
-        Envoirment1.transform.DOMove(new Vector3(0, -10, 0), 1);
-        
-        Envoirment2.transform.DOMove(new Vector3(0, 3, -14), 1);
-        FindObjectOfType<AudioManagerScript>().Play("NextLevelSound");
-        Invoke("DestroyLevel1", 2f);
-    }
-    void DestroyLevel1() 
+
+    private void Start()
     {
         
-        FindAnyObjectByType<Jump>().CanJump = true;
-        
-        Envoirment1.SetActive(false);
+        ActiveLevel = 1;
     }
 
-    public void Level3()
-    {
-        //JumpScript.SetActive(false);
-        Envoirment2.transform.DOMove(new Vector3(0, -10, 0), 1);
-
-        Envoirment3.transform.DOMove(new Vector3(0, 3, -14), 1);
-        FindObjectOfType<AudioManagerScript>().Play("NextLevelSound");
-        Invoke("DestroyLevel2", 2f);
-    }
-    void DestroyLevel2()
-    {
-
-        FindAnyObjectByType<Jump>().CanJump = true;
-        Debug.Log("Funciona");
-        Envoirment2.SetActive(false);
-    }
     public void OpenStore()
     {
         MainCanvas.SetActive(false);
@@ -54,6 +32,49 @@ public class LevelTransition : MonoBehaviour
     {
         MainCanvas.SetActive(true);
         StoreCanvas.SetActive(false);
+    }
+
+    public void ChangeLevel()
+    {
+        ActiveLevel ++;
+        EndOfLevelLight.color = new Vector4(1,1,1,1);
+        EndOfLevelLight.DOFade(0, 2f);
+        //EndOfLevelLight.intensity = 500;
+        //EndOfLevelLight.DOIntensity(0, 1);
+        FindObjectOfType<AudioManagerScript>().Play("NextLevelSound");
+        
+        switch (ActiveLevel)
+        {
+            case 2:
+                Envoirment1.DOLocalMoveY(-40, 1, true);
+                Envoirment2.DOLocalMoveY(0, 1, true).OnComplete(() => 
+                {
+                    FindAnyObjectByType<Jump>().CanJump = true;
+                });             
+                break;
+            case 3:
+                Envoirment2.DOLocalMoveY(-40f, 1, true);
+                Envoirment3.DOLocalMoveY(0, 1, true).OnComplete(() =>
+                {
+                    FindAnyObjectByType<Jump>().CanJump = true;
+                }); ;
+                break;
+            case 4:
+                Envoirment1.transform.position = new Vector3(-1.8f, 40, -12);
+                Envoirment2.transform.position = new Vector3(-1, 40, -10);
+                Envoirment1.DOLocalMoveY(0, 1, true);
+                Envoirment3.DOLocalMoveY(-40, 1).OnComplete(() =>
+                {
+                    Envoirment3.transform.position = new Vector3(-1, 40, -7);
+                    FindAnyObjectByType<Jump>().CanJump = true;
+                });
+                ActiveLevel = 0;
+                break;
+
+
+        }
+
+
     }
 
 }

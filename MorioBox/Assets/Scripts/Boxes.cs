@@ -8,4 +8,5 @@ public class Boxes : ScriptableObject
 {
     public GameObject BoxType;
     public int HP;
+    public bool LevelBox;
 }

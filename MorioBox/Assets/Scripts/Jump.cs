@@ -36,6 +36,7 @@ public class Jump : MonoBehaviour
     public Animator Anim;
 
     //Info Text
+    
     public int LevelNumber;
     public int BrokenBoxes;
     public TMP_Text TextBox;
@@ -62,120 +63,66 @@ public class Jump : MonoBehaviour
     }
 
     
-    void Update()
-    {
-        
-    }
+
 
     public void JumpButton()
     {
         if(CanJump == true)
         {
+            MorioRB.AddForce(0, 100000, 0);
+            ShowFloatingText();
+            CreateDust();
+            
             if (BoxHP != 0)
             {
+                HitBox();
 
-                MorioRB.AddForce(0, 100, 0);
-                ShowFloatingText();
-                CreateDust();
-                FindObjectOfType<AudioManagerScript>().Play("HitBoxSound");
-                BoxHP = BoxHP - 1;
-                Boxes[SelectedBox].gameObject.transform.localScale += new Vector3(0.03f, 0.01f, 0.01f);
             }
             else
             {
                 BrokenBoxes++;
-                //if (SelectedBox == 2 || SelectedBox == 5)
-                //{
-                    
-                //    MorioRB.AddForce(0, 100, 0);
-                //    Anim.SetTrigger("FinalJump");
-                //    FindObjectOfType<AudioManagerScript>().Play("FinalBoxSound");
-                //    ShowFloatingText();
-                //    CreateDust();
-                //    BoxExplosion();
-                //    NextBox();
-                //    CanJump = false;
-                //    LevelNumber++;
-                //    Damage = Damage + Random.Range(1, 3);
-                //    NextLevel2();
+                Anim.SetTrigger("FinalJump");
+                FindObjectOfType<AudioManagerScript>().Play("FinalBoxSound");
+                Damage = Damage + Random.Range(1, 3);
+                BoxExplosion();
+                NextBox();
 
-                //}
-
-                //else
-                //{
-                //    MorioRB.AddForce(0, 100, 0);
-                //    Anim.SetTrigger("FinalJump");
-                //    FindObjectOfType<AudioManagerScript>().Play("FinalBoxSound");
-                //    ShowFloatingText();
-                //    Damage = Damage + Random.Range (1, 3);
-                //    CreateDust();
-                //    BoxExplosion();
-                //    NextBox();
-
-
-                //}
-                switch (SelectedBox)
+                if (BoxesDB[SelectedBox].LevelBox == true)
                 {
-                    case 0:
-                        NextBox();
-                        break;
-                    case 1:
-                        NextBox();
-                        break;
-                    case 2:
-                        NextLevel2();
-                        break;
-                    case 3:
-                        NextBox();
-                        break;
-                    case 4:
-                        NextBox();
-                        break;
-                    case 5:
-                        NextLevel3();
-                        break;
-                    case 6:
-                        NextBox();
-                        break;
-                    case 7:
-                        NextBox();
-                        break;
-                    case 8:
-                        NextBox();
-                        break;
-
+                    BreakBoxNextLevel();
                 }
+
 
             }
         }
-
-
-
-
-
-
-
         UpdateText();
     }
 
-    void ShowFloatingText()
+    public void HitBox()
+    {
+        FindObjectOfType<AudioManagerScript>().Play("HitBoxSound");
+        BoxHP = BoxHP - 1;
+        Boxes[SelectedBox].gameObject.transform.localScale += new Vector3(0.03f, 0.01f, 0.01f);
+    }
+
+
+
+    public void BreakBoxNextLevel()
     {
 
-        var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
-        go.GetComponent<TextMesh>().text = Damage.ToString();
+        CanJump = false;
+        LevelNumber++;
+        Damage = Damage + Random.Range(1, 3);
+
+        FindObjectOfType<LevelTransition>().ChangeLevel();
     }
+
 
     public void NextBox()
     {
         if(SelectedBox < 8)
         {
-            MorioRB.AddForce(0, 100, 0);
-            Anim.SetTrigger("FinalJump");
-            FindObjectOfType<AudioManagerScript>().Play("FinalBoxSound");
-            ShowFloatingText();
-            Damage = Damage + Random.Range(1, 3);
-            CreateDust();
-            BoxExplosion();
+
             Boxes[SelectedBox].SetActive(false);
             SelectedBox++;
             Boxes[SelectedBox].SetActive(true);
@@ -184,13 +131,7 @@ public class Jump : MonoBehaviour
         }
         else
         {
-            MorioRB.AddForce(0, 100, 0);
-            Anim.SetTrigger("FinalJump");
-            FindObjectOfType<AudioManagerScript>().Play("FinalBoxSound");
-            ShowFloatingText();
-            Damage = Damage + Random.Range(1, 3);
-            CreateDust();
-            BoxExplosion();
+
             Boxes[SelectedBox].SetActive(false);
             SelectedBox = 0;
             Boxes[SelectedBox].SetActive(true);
@@ -200,7 +141,6 @@ public class Jump : MonoBehaviour
         
 
 
-        //UpdateBox(SelectedBox);
         
     }
 
@@ -224,40 +164,20 @@ public class Jump : MonoBehaviour
 
 
 
-    void NextLevel2()
-    {
-        MorioRB.AddForce(0, 100, 0);
-        Anim.SetTrigger("FinalJump");
-        FindObjectOfType<AudioManagerScript>().Play("FinalBoxSound");
-        ShowFloatingText();
-        CreateDust();
-        BoxExplosion();
-        NextBox();
-        CanJump = false;
-        LevelNumber++;
-        Damage = Damage + Random.Range(1, 3);
-        FindObjectOfType<LevelTransition>().Level2();
-    }
-    void NextLevel3()
-    {
-        MorioRB.AddForce(0, 100, 0);
-        Anim.SetTrigger("FinalJump");
-        FindObjectOfType<AudioManagerScript>().Play("FinalBoxSound");
-        ShowFloatingText();
-        CreateDust();
-        BoxExplosion();
-        NextBox();
-        CanJump = false;
-        LevelNumber++;
-        Damage = Damage + Random.Range(1, 3);
-        FindObjectOfType<LevelTransition>().Level3();
-    }
+
 
     void UpdateText()
     {
         TextDamage.text = "Damage: " + Damage.ToString();
         TextLevel.text = "Level: " + LevelNumber.ToString();
         TextBox.text = "Buck$ : " + BrokenBoxes.ToString();
+    }
+
+    void ShowFloatingText()
+    {
+
+        var go = Instantiate(FloatingText, transform.position, Quaternion.identity, transform);
+        go.GetComponent<TextMesh>().text = Damage.ToString();
     }
 
 }

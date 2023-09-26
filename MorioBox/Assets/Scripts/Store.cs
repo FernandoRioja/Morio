@@ -10,7 +10,7 @@ public class Store : MonoBehaviour
     
     public Transform CharacterPosition;
     
-    private int CurrentCharacter = 0;
+    
 
     private void Start()
     {

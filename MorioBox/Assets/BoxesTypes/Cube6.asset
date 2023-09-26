@@ -12,5 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c8472632be868f940a0fc1c538e9397e, type: 3}
   m_Name: Cube6
   m_EditorClassIdentifier: 
-  BoxType: {fileID: 956441005409930378, guid: 5a0be23327d9b5b48ba2c31f2bc86cd1, type: 3}
+  BoxType: {fileID: 3060078562014227316, guid: 498b6f012d8fad24da63ae8fc3ff252d, type: 3}
   HP: 10
+  LevelBox: 1
