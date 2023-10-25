@@ -37,9 +37,9 @@ public class Jump : MonoBehaviour
     public Animator Anim;
 
     //Info Text
-    
+
     public int LevelNumber;
-    public int BrokenBoxes;
+    public static int BrokenBoxes;
     public TMP_Text TextBox;
     public TMP_Text TextLevel;
     public TMP_Text TextDamage;
@@ -47,33 +47,33 @@ public class Jump : MonoBehaviour
     void Start()
     {
         Boxes = new List<GameObject>();
-        foreach(var BoxesDB in BoxesDB)
+        foreach (var BoxesDB in BoxesDB)
         {
             GameObject gameObject = Instantiate(BoxesDB.BoxType, BoxSpot.position, Quaternion.identity);
             gameObject.SetActive(false);
             Boxes.Add(gameObject);
         }
-        
+
         UpdateBox(SelectedBox);
         BoxHP = BoxesDB[SelectedBox].HP;
         CanJump = true;
         Damage = 1;
         LevelNumber = 1;
         BrokenBoxes = 1;
-        
+
     }
 
-    
+
 
 
     public void JumpButton()
     {
-        if(CanJump == true)
+        if (CanJump == true)
         {
             MorioRB.AddForce(0, 100000, 0);
             ShowFloatingText();
             CreateDust();
-            
+
             if (BoxHP != 0)
             {
                 HitBox();
@@ -122,7 +122,7 @@ public class Jump : MonoBehaviour
 
     public void NextBox()
     {
-        if(SelectedBox < 8)
+        if (SelectedBox < 8)
         {
 
             Boxes[SelectedBox].SetActive(false);
@@ -140,10 +140,10 @@ public class Jump : MonoBehaviour
             BoxHP = BoxesDB[SelectedBox].HP;
             Boxes[SelectedBox].gameObject.transform.localScale = new Vector3(1f, 1f, 1f);
         }
-        
 
 
-        
+
+
     }
 
     private void UpdateBox(int SelectedBox)
@@ -151,7 +151,7 @@ public class Jump : MonoBehaviour
         Boxes[SelectedBox].SetActive(true);
 
         BoxHP = BoxesDB[SelectedBox].HP;
-        
+
     }
 
     void CreateDust()
